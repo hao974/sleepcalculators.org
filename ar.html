@@ -425,6 +425,93 @@
                 grid-template-columns: 1fr;
             }
         }
+        /* Footer Links Styles */
+.footer-links {
+    margin-bottom: 20px;
+    padding: 0 20px;
+}
+
+.footer-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin: 0 15px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    display: inline-block;
+    position: relative;
+}
+
+.footer-links a:hover {
+    color: #667eea;
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.footer-links a:active {
+    transform: translateY(0);
+}
+
+/* Add subtle border between links */
+.footer-links a:not(:last-child)::after {
+    content: "|";
+    position: absolute;
+    right: -15px;
+    color: rgba(255, 255, 255, 0.4);
+    font-weight: 300;
+}
+
+/* Mobile responsive design */
+@media (max-width: 768px) {
+    .footer-links {
+        text-align: center;
+        padding: 0 10px;
+    }
+    
+    .footer-links a {
+        display: block;
+        margin: 8px auto;
+        max-width: 250px;
+        text-align: center;
+    }
+    
+    /* Remove separators on mobile */
+    .footer-links a::after {
+        display: none;
+    }
+}
+
+/* Alternative style without separators - cleaner look */
+.footer-links-clean a {
+    margin: 0 20px;
+    padding: 10px 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.footer-links-clean a:hover {
+    border-color: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* Extra spacing variant */
+.footer-links-spaced a {
+    margin: 0 25px;
+    padding: 12px 18px;
+}
+
+@media (max-width: 768px) {
+    .footer-links-clean a,
+    .footer-links-spaced a {
+        display: block;
+        margin: 10px auto;
+        max-width: 280px;
+    }
+}
     </style>
 </head>
 <body>
@@ -624,6 +711,12 @@
     <footer>
         <div class="container">
             <div class="footer-content">
+                <div class="footer-links">
+    <a href="https://sleepcalculators.org/privacy-policy">Privacy Policy</a>
+    <a href="https://sleepcalculators.org/vi">Tiếng Việt</a>
+    <a href="https://sleepcalculators.org/ar">العربية</a>
+    <a href="https://sleepcalculators.org/es">Español</a>
+</div>
                 <p>&copy; 2025 Sleep Calculators. جميع الحقوق محفوظة.</p>
                 <p>حسّن جدول النوم الخاص بك مع حاسبة دورة النوم المبنية على العلم.</p>
             </div>
