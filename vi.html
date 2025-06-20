@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Máy Tính Giấc Ngủ - Tối Ưu Hóa Lịch Trình Ngủ | Sleep Calculators</title>
+    <meta name="description" content="Máy tính giấc ngủ và chu kỳ giấc ngủ miễn phí để tìm thời gian đi ngủ và thức dậy tối ưu. Tính toán chu kỳ REM cho giấc ngủ ngon hơn.">
+    <meta name="keywords" content="máy tính giấc ngủ, chu kỳ giấc ngủ, tính toán giấc ngủ, máy tính REM, thời gian ngủ">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Máy Tính Giấc Ngủ - Tối Ưu Hóa Lịch Trình Ngủ">
+    <meta property="og:description" content="Tìm thời gian đi ngủ và thức dậy hoàn hảo với máy tính giấc ngủ tiên tiến. Dựa trên chu kỳ 90 phút cho giấc ngủ tối ưu.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sleepcalculators.org/vi">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header and Logo */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: #4a5568;
+        }
+
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            color: white;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .logo-text h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0;
+        }
+
+        .logo-text p {
+            font-size: 1rem;
+            color: #718096;
+            margin: 0;
+        }
+
+        /* Main Content */
+        main {
+            padding: 40px 0;
+        }
+
+        .hero-section {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .hero-section h2 {
+            font-size: 2.2rem;
+            color: white;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-section p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        /* Calculator Section */
+        .calculator-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+            margin-bottom: 60px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .calculator-tabs {
+            display: flex;
+            margin-bottom: 30px;
+            background: #f7fafc;
+            border-radius: 10px;
+            padding: 5px;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 15px;
+            background: none;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: #4a5568;
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        input[type="time"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="time"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .calculate-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .results {
+            margin-top: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #f7fafc, #edf2f7);
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+        }
+
+        .results h3 {
+            color: #4a5568;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .time-option {
+            display: inline-block;
+            margin: 8px;
+            padding: 12px 20px;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 25px;
+            color: #4a5568;
+            font-weight: 600;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .time-option:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        /* Content Sections */
+        .content-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+        }
+
+        .content-section h2 {
+            color: #2d3748;
+            margin-bottom: 25px;
+            font-size: 2rem;
+            text-align: center;
+        }
+
+        .content-section h3 {
+            color: #4a5568;
+            margin: 25px 0 15px;
+            font-size: 1.5rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #f7fafc, #edf2f7);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 24px;
+            color: white;
+        }
+
+        .faq-item {
+            margin-bottom: 20px;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            background: #f7fafc;
+            padding: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #4a5568;
+            transition: background-color 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: #edf2f7;
+        }
+
+        .faq-answer {
+            padding: 20px;
+            background: white;
+            display: none;
+            color: #4a5568;
+            line-height: 1.7;
+        }
+
+        .faq-answer.active {
+            display: block;
+        }
+
+        /* Useful Websites Section */
+        .useful-websites {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+        }
+
+        .useful-websites h2 {
+            text-align: center;
+            color: #2d3748;
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+
+        .websites-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .website-link {
+            display: block;
+            padding: 15px 20px;
+            background: linear-gradient(135deg, #f7fafc, #edf2f7);
+            color: #4a5568;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-weight: 500;
+            border: 1px solid #e2e8f0;
+        }
+
+        .website-link:hover {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(45, 55, 72, 0.95);
+            backdrop-filter: blur(10px);
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 60px;
+        }
+
+        .footer-content p {
+            margin-bottom: 10px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .logo-text h1 {
+                font-size: 2rem;
+            }
+
+            .hero-section h2 {
+                font-size: 1.8rem;
+            }
+
+            .calculator-card {
+                padding: 25px;
+                margin: 0 10px 40px;
+            }
+
+            .content-section {
+                padding: 25px;
+                margin: 0 10px 30px;
+            }
+
+            .websites-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo">
+                    <div class="logo-icon">🌙</div>
+                    <div class="logo-text">
+                        <h1>Máy Tính Giấc Ngủ</h1>
+                        <p>Tối Ưu Hóa Chu Kỳ Giấc Ngủ</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <section class="hero-section">
+                <h2>Tìm Lịch Trình Giấc Ngủ Hoàn Hảo</h2>
+                <p>Thức dậy sảng khoái và tràn đầy năng lượng với máy tính giấc ngủ tiên tiến của chúng tôi. Tính toán thời gian đi ngủ và thức dậy tối ưu dựa trên chu kỳ giấc ngủ tự nhiên 90 phút.</p>
+            </section>
+
+            <section class="calculator-card">
+                <div class="calculator-tabs">
+                    <button class="tab-button active" onclick="switchTab('wakeup')">Giờ Thức Dậy</button>
+                    <button class="tab-button" onclick="switchTab('bedtime')">Giờ Đi Ngủ</button>
+                </div>
+
+                <div id="wakeup-tab" class="tab-content active">
+                    <div class="form-group">
+                        <label for="wake-time">Bạn muốn thức dậy lúc mấy giờ?</label>
+                        <input type="time" id="wake-time" value="07:00">
+                    </div>
+                    <button class="calculate-btn" onclick="calculateBedtime()">Tính Giờ Đi Ngủ</button>
+                    <div id="bedtime-results" class="results" style="display: none;">
+                        <h3>Giờ Đi Ngủ Được Khuyến Nghị:</h3>
+                        <div id="bedtime-options"></div>
+                        <p style="margin-top: 15px; font-size: 0.9rem; color: #718096;">
+                            💡 Người bình thường mất 15 phút để chìm vào giấc ngủ. Hãy tính toán cho phù hợp!
+                        </p>
+                    </div>
+                </div>
+
+                <div id="bedtime-tab" class="tab-content">
+                    <div class="form-group">
+                        <label for="sleep-time">Bạn định đi ngủ lúc mấy giờ?</label>
+                        <input type="time" id="sleep-time" value="23:00">
+                    </div>
+                    <button class="calculate-btn" onclick="calculateWakeup()">Tính Giờ Thức Dậy</button>
+                    <div id="wakeup-results" class="results" style="display: none;">
+                        <h3>Giờ Thức Dậy Được Khuyến Nghị:</h3>
+                        <div id="wakeup-options"></div>
+                        <p style="margin-top: 15px; font-size: 0.9rem; color: #718096;">
+                            💡 Thức dậy vào một trong những thời điểm này để tỉnh táo giữa các chu kỳ giấc ngủ 90 phút.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2>Về Máy Tính Chu Kỳ Giấc Ngủ Của Chúng Tôi</h2>
+                <p><strong>Máy tính giấc ngủ</strong> của chúng tôi được thiết kế để giúp bạn tối ưu hóa lịch trình ngủ bằng cách làm việc với chu kỳ giấc ngủ tự nhiên của cơ thể. Khác với những máy tính đơn giản, công cụ của chúng tôi tính đến khoa học giấc ngủ để đảm bảo bạn thức dậy cảm thấy sảng khoái và tràn đầy năng lượng.</p>
+                
+                <h3>Tính Năng Chính Của Máy Tính Thời Gian Ngủ</h3>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🔄</div>
+                        <h4>Tính Toán Chu Kỳ 90 Phút</h4>
+                        <p>Dựa trên nghiên cứu khoa học cho thấy chu kỳ giấc ngủ tối ưu kéo dài khoảng 90 phút</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">⏰</div>
+                        <h4>Máy Tính Hai Chế Độ</h4>
+                        <p>Tính toán cả giờ đi ngủ lý tưởng hoặc giờ thức dậy dựa trên lịch trình của bạn</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🧠</div>
+                        <h4>Tối Ưu Hóa Giấc Ngủ REM</h4>
+                        <p>Đảm bảo bạn hoàn thành chu kỳ giấc ngủ đầy đủ bao gồm giai đoạn REM quan trọng</p>
+                    </div>
+                </div>
+
+                <h3>Chu Kỳ Giấc Ngủ Hoạt Động Như Thế Nào</h3>
+                <p>Hiểu về chu kỳ giấc ngủ là rất quan trọng để <strong>tính toán giấc ngủ</strong> hiệu quả. Mỗi chu kỳ giấc ngủ bao gồm nhiều giai đoạn:</p>
+                <ul style="margin: 15px 0; padding-left: 20px;">
+                    <li><strong>Giấc Ngủ Nhẹ (Giai đoạn 1-2):</strong> Quá trình chuyển từ tỉnh thức sang giấc ngủ</li>
+                    <li><strong>Giấc Ngủ Sâu (Giai đoạn 3):</strong> Phục hồi thể chất và củng cố trí nhớ</li>
+                    <li><strong>Giấc Ngủ REM:</strong> Giấc ngủ chuyển động mắt nhanh quan trọng cho phục hồi tinh thần</li>
+                </ul>
+                <p><strong>Máy tính giấc ngủ REM</strong> của chúng tôi đảm bảo bạn hoàn thành những chu kỳ này một cách tự nhiên, tránh cảm giác buồn ngủ khi thức dậy giữa chu kỳ.</p>
+            </section>
+
+            <section class="content-section">
+                <h2>Câu Hỏi Thường Gặp</h2>
+                
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        Máy tính chu kỳ giấc ngủ này có chính xác không?
+                    </div>
+                    <div class="faq-answer">
+                        <strong>Máy tính giấc ngủ</strong> của chúng tôi dựa trên nghiên cứu giấc ngủ mở rộng cho thấy chu kỳ giấc ngủ trung bình kéo dài 90-120 phút. Mặc dù có sự khác biệt cá nhân, hầu hết mọi người đều được lợi từ việc thức dậy vào cuối chu kỳ hoàn chình thay vì giữa chu kỳ.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        Điều gì làm cho công cụ này khác biệt so với các máy tính thời gian ngủ khác?
+                    </div>
+                    <div class="faq-answer">
+                        Máy tính của chúng tôi tập trung vào <strong>tính toán giấc ngủ</strong> dựa trên chu kỳ 90 phút tự nhiên thay vì chỉ đếm giờ. Cách tiếp cận này giúp bạn thức dậy trong giai đoạn giấc ngủ nhẹ hơn, giảm cảm giác buồn ngủ buổi sáng và cải thiện mức năng lượng suốt cả ngày.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        Tính năng máy tính giấc ngủ REM hoạt động như thế nào?
+                    </div>
+                    <div class="faq-answer">
+                        Thành phần <strong>máy tính giấc ngủ REM</strong> của chúng tôi đảm bảo bạn hoàn thành chu kỳ giấc ngủ đầy đủ bao gồm tất cả giai đoạn ngủ, kể cả giai đoạn REM (Rapid Eye Movement) quan trọng. Giấc ngủ REM thường xảy ra trong phần sau của mỗi chu kỳ 90 phút và cần thiết cho việc củng cố trí nhớ và phục hồi tinh thần.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        Tại sao tôi cần nhiều lựa chọn giờ đi ngủ?
+                    </div>
+                    <div class="faq-answer">
+                        <strong>Máy tính chu kỳ giấc ngủ</strong> cung cấp nhiều lựa chọn vì bạn có thể cảm thấy sảng khoái sau 4, 5, hoặc 6 chu kỳ giấc ngủ hoàn chỉnh (tương ứng 6, 7.5, hoặc 9 giờ). Sự linh hoạt này cho phép bạn chọn lựa dựa trên lịch trình trong khi vẫn duy trì chất lượng giấc ngủ tối ưu.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        15 phút có thực sự là thời gian trung bình để chìm vào giấc ngủ?
+                    </div>
+                    <div class="faq-answer">
+                        Có, nghiên cứu cho thấy người lớn khỏe mạnh thường mất 10-20 phút để chìm vào giấc ngủ, với 15 phút là mức trung bình. Máy tính của chúng tôi bao gồm khoảng thời gian "độ trễ giấc ngủ" này khi <strong>tính toán giấc ngủ</strong> để đảm bảo độ chính xác trong việc lập kế hoạch lịch trình ngủ.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        Máy tính giấc ngủ này có thể giúp với rối loạn giấc ngủ không?
+                    </div>
+                    <div class="faq-answer">
+                        Mặc dù công cụ của chúng tôi rất tuyệt vời để tối ưu hóa lịch trình ngủ bình thường, nó không phải là thiết bị y tế. Nếu bạn có vấn đề giấc ngủ dai dẳng, hãy tham khảo ý kiến chuyên gia chăm sóc sức khỏe. Tuy nhiên, nhiều người dùng thấy rằng việc tuân theo khuyến nghị của <strong>máy tính thời gian ngủ</strong> giúp cải thiện chất lượng giấc ngủ tổng thể và sự tỉnh táo ban ngày.
+                    </div>
+                </div>
+            </section>
+
+            <section class="useful-websites">
+                <h2>Công Cụ & Tài Nguyên Hữu Ích</h2>
+                <div class="websites-grid">
+                    <a href="https://hellowordl.cc/" target="_blank" class="website-link">Hello Wordl</a>
+                    <a href="https://www.globeask.com/" target="_blank" class="website-link">Globe Ask</a>
+                    <a href="https://live-clock.com/" target="_blank" class="website-link">Live Clock</a>
+                    <a href="https://www.pokemonguide.org/" target="_blank" class="website-link">Pokemon Guide</a>
+                    <a href="https://www.strongrandompassword.com/" target="_blank" class="website-link">Strong Random Password Generator</a>
+                    <a href="https://www.myipinquire.com/" target="_blank" title="ipsaya" class="website-link">IP Saya</a>
+                    <a href="https://www.calculationassistant.com/" target="_blank" class="website-link">Calculation Assistant</a>
+                    <a href="https://www.whatismyipaddressinquire.com/" target="_blank" class="website-link">Random IP</a>
+                    <a href="https://www.masters-tool.com/" target="_blank" class="website-link">Masters Tool</a>
+                    <a href="https://www.mathematicalcalculator.com/" target="_blank" class="website-link">Mathematical Calculator</a>
+                    <a href="https://tothepowerof2.com/" target="_blank" class="website-link">2 to the Power of What is 1/64</a>
+                    <a href="https://littlebeartools.com/" target="_blank" class="website-link">Little Bear Tools</a>
+                    <a href="https://snailsbob.org/" target="_blank" class="website-link">Snail Bob</a>
+                    <a href="https://redlightgreenlightgame.net/" target="_blank" class="website-link">Red Light Green Light Game</a>
+                    <a href="https://excelgames.cc/" target="_blank" class="website-link">Excel Game</a>
+                    <a href="https://block-blast-unblocked.com/" target="_blank" class="website-link">Block Blast Unblocked</a>
+                    <a href="https://incrediboxsprunkifree.org/" target="_blank" class="website-link">Incredibox Sprunki</a>
+                    <a href="https://todayluckynumber.org" target="_blank" class="website-link">Today Lucky Number</a>
+                    <a href="https://military-time-chart.org/" target="_blank" class="website-link">Military Time Chart</a>
+                    <a href="https://chronologicalagescalculator.com/" target="_blank" class="website-link">Chronological Age Calculator</a>
+                    <a href="https://12weeksfromtoday.com/" target="_blank" class="website-link">12 Weeks From Today</a>
+                    <a href="https://weeks-from-today.com/" target="_blank" class="website-link">Weeks From Today</a>
+                    <a href="https://bottleneckcalculator.work/" target="_blank" class="website-link">Bottleneck Calculator</a>
+                    <a href="https://letterstonumbers.com/" target="_blank" class="website-link">Letters to Numbers</a>
+                    <a href="https://bratfontgenerator.com/" target="_blank" class="website-link">Brat Font Generator</a>
+                    <a href="https://tap-code.org/" target="_blank" class="website-link">Tap Code</a>
+                    <a href="https://5letterwordswithiinthemiddle.com/" target="_blank" class="website-link">5 Letter Words with I in the Middle</a>
+                    <a href="https://freaky-font.net/" target="_blank" class="website-link">Freaky Font</a>
+                    <a href="https://heartemoji.net/" target="_blank" class="website-link">Heart Emoji</a>
+                    <a href="https://villainnamegenerator.org/" target="_blank" class="website-link">Villain Name Generator</a>
+                    <a href="https://crazycattle3ditch.com/" target="_blank" class="website-link">Crazy Cattle 3D</a>
+                    <a href="https://checkersonline247.com/" target="_blank" class="website-link">Checkers Online</a>
+                    <a href="https://collapsible-stool.com/" target="_blank" title="Collapsible Stool" class="website-link">Collapsible Stool</a>
+                    <a href="https://overallsshop.com/" target="_blank" title="Overalls" class="website-link">Overalls</a>
+                    <a href="https://datecalculators.org/" target="_blank" title="Date Calculator" class="website-link">Date Calculator</a>
+                    <a href="https://www.shopsages.com/" target="_blank" title="Shop Sages" class="website-link">Shop Sages</a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 Sleep Calculators. Tất cả quyền được bảo lưu.</p>
+                <p>Tối ưu hóa lịch trình giấc ngủ của bạn với máy tính chu kỳ giấc ngủ dựa trên khoa học.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function switchTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected tab and mark button as active
+            document.getElementById(tabName + '-tab').classList.add('active');
+            event.target.classList.add('active');
+            
+            // Hide results
+            document.getElementById('bedtime-results').style.display = 'none';
+            document.getElementById('wakeup-results').style.display = 'none';
+        }
+
+        function calculateBedtime() {
+            const wakeTime = document.getElementById('wake-time').value;
+            if (!wakeTime) return;
+            
+            const [hours, minutes] = wakeTime.split(':').map(Number);
+            const wakeDate = new Date();
+            wakeDate.setHours(hours, minutes, 0, 0);
+            
+            const bedtimes = [];
+            const cycleLength = 90; // minutes
+            const fallAsleepTime = 15; // minutes
+            
+            // Calculate for 4, 5, and 6 sleep cycles
+            for (let cycles = 4; cycles <= 6; cycles++) {
+                const totalSleepMinutes = cycles * cycleLength + fallAsleepTime;
+                const bedtime = new Date(wakeDate.getTime() - totalSleepMinutes * 60000);
+                
+                // Handle day rollover
+                if (bedtime.getDate() !== wakeDate.getDate()) {
+                    bedtime.setDate(bedtime.getDate());
+                }
+                
+                const timeString = bedtime.toTimeString().slice(0, 5);
+                const sleepHours = (cycles * cycleLength / 60).toFixed(1);
+                bedtimes.push(`${timeString} (${sleepHours}h ngủ)`);
+            }
+            
+            const resultsDiv = document.getElementById('bedtime-results');
+            const optionsDiv = document.getElementById('bedtime-options');
+            
+            optionsDiv.innerHTML = bedtimes.map(time => 
+                `<span class="time-option">${time}</span>`
+            ).join('');
+            
+            resultsDiv.style.display = 'block';
+        }
+
+        function calculateWakeup() {
+            const sleepTime = document.getElementById('sleep-time').value;
+            if (!sleepTime) return;
+            
+            const [hours, minutes] = sleepTime.split(':').map(Number);
+            const sleepDate = new Date();
+            sleepDate.setHours(hours, minutes, 0, 0);
+            
+            const wakeupTimes = [];
+            const cycleLength = 90; // minutes
+            const fallAsleepTime = 15; // minutes
+            
+            // Add fall asleep time
+            const actualSleepStart = new Date(sleepDate.getTime() + fallAsleepTime * 60000);
+            
+            // Calculate for 4, 5, and 6 sleep cycles
+            for (let cycles = 4; cycles <= 6; cycles++) {
+                const totalSleepMinutes = cycles * cycleLength;
+                const wakeup = new Date(actualSleepStart.getTime() + totalSleepMinutes * 60000);
+                
+                // Handle day rollover
+                if (wakeup.getDate() !== sleepDate.getDate()) {
+                    wakeup.setDate(wakeup.getDate());
+                }
+                
+                const timeString = wakeup.toTimeString().slice(0, 5);
+                const sleepHours = (cycles * cycleLength / 60).toFixed(1);
+                wakeupTimes.push(`${timeString} (${sleepHours}h ngủ)`);
+            }
+            
+            const resultsDiv = document.getElementById('wakeup-results');
+            const optionsDiv = document.getElementById('wakeup-options');
+            
+            optionsDiv.innerHTML = wakeupTimes.map(time => 
+                `<span class="time-option">${time}</span>`
+            ).join('');
+            
+            resultsDiv.style.display = 'block';
+        }
+
+        function toggleFAQ(element) {
+            const answer = element.nextElementSibling;
+            const isActive = answer.classList.contains('active');
+            
+            // Close all FAQ answers
+            document.querySelectorAll('.faq-answer').forEach(ans => {
+                ans.classList.remove('active');
+            });
+            
+            // Toggle current answer
+            if (!isActive) {
+                answer.classList.add('active');
+            }
+        }
+
+        // Initialize with default calculation
+        document.addEventListener('DOMContentLoaded', function() {
+            calculateBedtime();
+        });
+    </script>
+</body>
+</html>
