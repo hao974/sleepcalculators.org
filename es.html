@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Sueño - Optimiza tu Horario de Sueño | Sleep Calculators</title>
+    <meta name="description" content="Calculadora de sueño y ciclo de sueño gratuita para encontrar horarios óptimos de dormir y despertar. Calcula tus ciclos REM para mejor descanso.">
+    <meta name="keywords" content="calculadora de sueño, calculadora de ciclo de sueño, calcular sueño, calculadora REM, calculadora de tiempo de sueño">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Calculadora de Sueño - Optimiza tu Horario de Sueño">
+    <meta property="og:description" content="Encuentra tu hora perfecta para dormir y despertar con nuestra calculadora de sueño avanzada. Basada en ciclos de 90 minutos para un sueño óptimo.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sleepcalculators.org/es">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header and Logo */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: #4a5568;
+        }
+
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            color: white;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .logo-text h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0;
+        }
+
+        .logo-text p {
+            font-size: 1rem;
+            color: #718096;
+            margin: 0;
+        }
+
+        /* Main Content */
+        main {
+            padding: 40px 0;
+        }
+
+        .hero-section {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .hero-section h2 {
+            font-size: 2.2rem;
+            color: white;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-section p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        /* Calculator Section */
+        .calculator-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+            margin-bottom: 60px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .calculator-tabs {
+            display: flex;
+            margin-bottom: 30px;
+            background: #f7fafc;
+            border-radius: 10px;
+            padding: 5px;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 15px;
+            background: none;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: #4a5568;
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        input[type="time"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="time"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .calculate-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .results {
+            margin-top: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #f7fafc, #edf2f7);
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+        }
+
+        .results h3 {
+            color: #4a5568;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .time-option {
+            display: inline-block;
+            margin: 8px;
+            padding: 12px 20px;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 25px;
+            color: #4a5568;
+            font-weight: 600;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .time-option:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        /* Content Sections */
+        .content-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+        }
+
+        .content-section h2 {
+            color: #2d3748;
+            margin-bottom: 25px;
+            font-size: 2rem;
+            text-align: center;
+        }
+
+        .content-section h3 {
+            color: #4a5568;
+            margin: 25px 0 15px;
+            font-size: 1.5rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #f7fafc, #edf2f7);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 24px;
+            color: white;
+        }
+
+        .faq-item {
+            margin-bottom: 20px;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            background: #f7fafc;
+            padding: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #4a5568;
+            transition: background-color 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: #edf2f7;
+        }
+
+        .faq-answer {
+            padding: 20px;
+            background: white;
+            display: none;
+            color: #4a5568;
+            line-height: 1.7;
+        }
+
+        .faq-answer.active {
+            display: block;
+        }
+
+        /* Useful Websites Section */
+        .useful-websites {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+        }
+
+        .useful-websites h2 {
+            text-align: center;
+            color: #2d3748;
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+
+        .websites-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .website-link {
+            display: block;
+            padding: 15px 20px;
+            background: linear-gradient(135deg, #f7fafc, #edf2f7);
+            color: #4a5568;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-weight: 500;
+            border: 1px solid #e2e8f0;
+        }
+
+        .website-link:hover {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(45, 55, 72, 0.95);
+            backdrop-filter: blur(10px);
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 60px;
+        }
+
+        .footer-content p {
+            margin-bottom: 10px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .logo-text h1 {
+                font-size: 2rem;
+            }
+
+            .hero-section h2 {
+                font-size: 1.8rem;
+            }
+
+            .calculator-card {
+                padding: 25px;
+                margin: 0 10px 40px;
+            }
+
+            .content-section {
+                padding: 25px;
+                margin: 0 10px 30px;
+            }
+
+            .websites-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo">
+                    <div class="logo-icon">🌙</div>
+                    <div class="logo-text">
+                        <h1>Calculadoras de Sueño</h1>
+                        <p>Optimiza tu Ciclo de Sueño</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <section class="hero-section">
+                <h2>Encuentra tu Horario de Sueño Perfecto</h2>
+                <p>Despierta fresco y lleno de energía con nuestra calculadora de sueño avanzada. Calcula tus horarios óptimos para dormir y despertar basado en ciclos naturales de sueño de 90 minutos.</p>
+            </section>
+
+            <section class="calculator-card">
+                <div class="calculator-tabs">
+                    <button class="tab-button active" onclick="switchTab('wakeup')">Hora de Despertar</button>
+                    <button class="tab-button" onclick="switchTab('bedtime')">Hora de Dormir</button>
+                </div>
+
+                <div id="wakeup-tab" class="tab-content active">
+                    <div class="form-group">
+                        <label for="wake-time">¿A qué hora quieres despertar?</label>
+                        <input type="time" id="wake-time" value="07:00">
+                    </div>
+                    <button class="calculate-btn" onclick="calculateBedtime()">Calcular Hora de Dormir</button>
+                    <div id="bedtime-results" class="results" style="display: none;">
+                        <h3>Horas de Dormir Recomendadas:</h3>
+                        <div id="bedtime-options"></div>
+                        <p style="margin-top: 15px; font-size: 0.9rem; color: #718096;">
+                            💡 La persona promedio tarda 15 minutos en quedarse dormida. ¡Planifica en consecuencia!
+                        </p>
+                    </div>
+                </div>
+
+                <div id="bedtime-tab" class="tab-content">
+                    <div class="form-group">
+                        <label for="sleep-time">¿A qué hora vas a dormir?</label>
+                        <input type="time" id="sleep-time" value="23:00">
+                    </div>
+                    <button class="calculate-btn" onclick="calculateWakeup()">Calcular Hora de Despertar</button>
+                    <div id="wakeup-results" class="results" style="display: none;">
+                        <h3>Horas de Despertar Recomendadas:</h3>
+                        <div id="wakeup-options"></div>
+                        <p style="margin-top: 15px; font-size: 0.9rem; color: #718096;">
+                            💡 Despierta en uno de estos horarios para levantarte entre ciclos de sueño de 90 minutos.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2>Acerca de Nuestra Calculadora de Ciclo de Sueño</h2>
+                <p>Nuestra <strong>calculadora de sueño</strong> está diseñada para ayudarte a optimizar tu horario de sueño trabajando con los ciclos naturales de sueño de tu cuerpo. A diferencia de las calculadoras simples de hora de dormir, nuestra herramienta tiene en cuenta la ciencia del sueño para asegurar que despiertes sintiéndote fresco y lleno de energía.</p>
+                
+                <h3>Características Principales de Nuestra Calculadora de Tiempo de Sueño</h3>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🔄</div>
+                        <h4>Cálculo de Ciclo de 90 Minutos</h4>
+                        <p>Basado en investigación científica que muestra que los ciclos de sueño óptimos duran aproximadamente 90 minutos</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">⏰</div>
+                        <h4>Calculadora de Modo Dual</h4>
+                        <p>Calcula tanto tu hora ideal para dormir como para despertar basado en tu horario</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🧠</div>
+                        <h4>Optimización de Sueño REM</h4>
+                        <p>Asegura que completes ciclos de sueño completos incluyendo las fases REM cruciales</p>
+                    </div>
+                </div>
+
+                <h3>Cómo Funcionan los Ciclos de Sueño</h3>
+                <p>Entender los ciclos de sueño es crucial para <strong>calcular el sueño</strong> efectivamente. Cada ciclo de sueño consiste en varias etapas:</p>
+                <ul style="margin: 15px 0; padding-left: 20px;">
+                    <li><strong>Sueño Ligero (Etapa 1-2):</strong> La transición de la vigilia al sueño</li>
+                    <li><strong>Sueño Profundo (Etapa 3):</strong> Restauración física y consolidación de memoria</li>
+                    <li><strong>Sueño REM:</strong> Sueño de Movimiento Rápido de Ojos crucial para la restauración mental</li>
+                </ul>
+                <p>Nuestra <strong>calculadora de sueño REM</strong> asegura que completes estos ciclos naturalmente, evitando la somnolencia de despertar a mitad de ciclo.</p>
+            </section>
+
+            <section class="content-section">
+                <h2>Preguntas Frecuentes</h2>
+                
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        ¿Qué tan precisa es esta calculadora de ciclo de sueño?
+                    </div>
+                    <div class="faq-answer">
+                        Nuestra <strong>calculadora de sueño</strong> se basa en investigación extensa del sueño que muestra que el ciclo de sueño promedio dura 90-120 minutos. Aunque existen variaciones individuales, la mayoría de las personas se benefician de despertar al final de un ciclo completo en lugar de a mitad de ciclo.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        ¿Qué hace que esto sea diferente a otras calculadoras de tiempo de sueño?
+                    </div>
+                    <div class="faq-answer">
+                        Nuestra calculadora se enfoca en <strong>calcular el sueño</strong> basado en ciclos naturales de 90 minutos en lugar de solo contar horas. Este enfoque te ayuda a despertar durante fases de sueño más ligeras, reduciendo la somnolencia matutina y mejorando los niveles de energía durante el día.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        ¿Cómo funciona la característica de calculadora de sueño REM?
+                    </div>
+                    <div class="faq-answer">
+                        Nuestro componente de <strong>calculadora de sueño REM</strong> asegura que completes ciclos de sueño completos que incluyen todas las etapas del sueño, incluyendo la fase REM (Movimiento Rápido de Ojos) crucial. El sueño REM típicamente ocurre en la parte posterior de cada ciclo de 90 minutos y es esencial para la consolidación de memoria y restauración mental.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        ¿Por qué necesito múltiples opciones de hora de dormir?
+                    </div>
+                    <div class="faq-answer">
+                        La <strong>calculadora de ciclo de sueño</strong> proporciona múltiples opciones porque puedes sentirte fresco después de 4, 5, o 6 ciclos de sueño completos (6, 7.5, o 9 horas respectivamente). Esta flexibilidad te permite elegir basado en tu horario mientras mantienes la calidad de sueño óptima.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        ¿Son realmente 15 minutos el tiempo promedio para quedarse dormido?
+                    </div>
+                    <div class="faq-answer">
+                        Sí, la investigación muestra que los adultos saludables típicamente tardan 10-20 minutos en quedarse dormidos, siendo 15 minutos el promedio. Nuestra calculadora incluye este período de "latencia del sueño" al <strong>calcular el sueño</strong> para asegurar precisión en la planificación del horario de sueño.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        ¿Puede esta calculadora de sueño ayudar con trastornos del sueño?
+                    </div>
+                    <div class="faq-answer">
+                        Aunque nuestra herramienta es excelente para optimizar horarios de sueño normales, no es un dispositivo médico. Si tienes problemas persistentes de sueño, consulta a un proveedor de atención médica. Sin embargo, muchos usuarios encuentran que seguir las recomendaciones de nuestra <strong>calculadora de tiempo de sueño</strong> mejora su calidad general de sueño y alerta diurna.
+                    </div>
+                </div>
+            </section>
+
+            <section class="useful-websites">
+                <h2>Herramientas y Recursos Útiles</h2>
+                <div class="websites-grid">
+                    <a href="https://hellowordl.cc/" target="_blank" class="website-link">Hello Wordl</a>
+                    <a href="https://www.globeask.com/" target="_blank" class="website-link">Globe Ask</a>
+                    <a href="https://live-clock.com/" target="_blank" class="website-link">Live Clock</a>
+                    <a href="https://www.pokemonguide.org/" target="_blank" class="website-link">Pokemon Guide</a>
+                    <a href="https://www.strongrandompassword.com/" target="_blank" class="website-link">Strong Random Password Generator</a>
+                    <a href="https://www.myipinquire.com/" target="_blank" title="ipsaya" class="website-link">IP Saya</a>
+                    <a href="https://www.calculationassistant.com/" target="_blank" class="website-link">Calculation Assistant</a>
+                    <a href="https://www.whatismyipaddressinquire.com/" target="_blank" class="website-link">Random IP</a>
+                    <a href="https://www.masters-tool.com/" target="_blank" class="website-link">Masters Tool</a>
+                    <a href="https://www.mathematicalcalculator.com/" target="_blank" class="website-link">Mathematical Calculator</a>
+                    <a href="https://tothepowerof2.com/" target="_blank" class="website-link">2 to the Power of What is 1/64</a>
+                    <a href="https://littlebeartools.com/" target="_blank" class="website-link">Little Bear Tools</a>
+                    <a href="https://snailsbob.org/" target="_blank" class="website-link">Snail Bob</a>
+                    <a href="https://redlightgreenlightgame.net/" target="_blank" class="website-link">Red Light Green Light Game</a>
+                    <a href="https://excelgames.cc/" target="_blank" class="website-link">Excel Game</a>
+                    <a href="https://block-blast-unblocked.com/" target="_blank" class="website-link">Block Blast Unblocked</a>
+                    <a href="https://incrediboxsprunkifree.org/" target="_blank" class="website-link">Incredibox Sprunki</a>
+                    <a href="https://todayluckynumber.org" target="_blank" class="website-link">Today Lucky Number</a>
+                    <a href="https://military-time-chart.org/" target="_blank" class="website-link">Military Time Chart</a>
+                    <a href="https://chronologicalagescalculator.com/" target="_blank" class="website-link">Chronological Age Calculator</a>
+                    <a href="https://12weeksfromtoday.com/" target="_blank" class="website-link">12 Weeks From Today</a>
+                    <a href="https://weeks-from-today.com/" target="_blank" class="website-link">Weeks From Today</a>
+                    <a href="https://bottleneckcalculator.work/" target="_blank" class="website-link">Bottleneck Calculator</a>
+                    <a href="https://letterstonumbers.com/" target="_blank" class="website-link">Letters to Numbers</a>
+                    <a href="https://bratfontgenerator.com/" target="_blank" class="website-link">Brat Font Generator</a>
+                    <a href="https://tap-code.org/" target="_blank" class="website-link">Tap Code</a>
+                    <a href="https://5letterwordswithiinthemiddle.com/" target="_blank" class="website-link">5 Letter Words with I in the Middle</a>
+                    <a href="https://freaky-font.net/" target="_blank" class="website-link">Freaky Font</a>
+                    <a href="https://heartemoji.net/" target="_blank" class="website-link">Heart Emoji</a>
+                    <a href="https://villainnamegenerator.org/" target="_blank" class="website-link">Villain Name Generator</a>
+                    <a href="https://crazycattle3ditch.com/" target="_blank" class="website-link">Crazy Cattle 3D</a>
+                    <a href="https://checkersonline247.com/" target="_blank" class="website-link">Checkers Online</a>
+                    <a href="https://collapsible-stool.com/" target="_blank" title="Collapsible Stool" class="website-link">Collapsible Stool</a>
+                    <a href="https://overallsshop.com/" target="_blank" title="Overalls" class="website-link">Overalls</a>
+                    <a href="https://datecalculators.org/" target="_blank" title="Date Calculator" class="website-link">Date Calculator</a>
+                    <a href="https://www.shopsages.com/" target="_blank" title="Shop Sages" class="website-link">Shop Sages</a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 Sleep Calculators. Todos los derechos reservados.</p>
+                <p>Optimiza tu horario de sueño con nuestra calculadora de ciclo de sueño basada en ciencia.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function switchTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected tab and mark button as active
+            document.getElementById(tabName + '-tab').classList.add('active');
+            event.target.classList.add('active');
+            
+            // Hide results
+            document.getElementById('bedtime-results').style.display = 'none';
+            document.getElementById('wakeup-results').style.display = 'none';
+        }
+
+        function calculateBedtime() {
+            const wakeTime = document.getElementById('wake-time').value;
+            if (!wakeTime) return;
+            
+            const [hours, minutes] = wakeTime.split(':').map(Number);
+            const wakeDate = new Date();
+            wakeDate.setHours(hours, minutes, 0, 0);
+            
+            const bedtimes = [];
+            const cycleLength = 90; // minutes
+            const fallAsleepTime = 15; // minutes
+            
+            // Calculate for 4, 5, and 6 sleep cycles
+            for (let cycles = 4; cycles <= 6; cycles++) {
+                const totalSleepMinutes = cycles * cycleLength + fallAsleepTime;
+                const bedtime = new Date(wakeDate.getTime() - totalSleepMinutes * 60000);
+                
+                // Handle day rollover
+                if (bedtime.getDate() !== wakeDate.getDate()) {
+                    bedtime.setDate(bedtime.getDate());
+                }
+                
+                const timeString = bedtime.toTimeString().slice(0, 5);
+                const sleepHours = (cycles * cycleLength / 60).toFixed(1);
+                bedtimes.push(`${timeString} (${sleepHours}h sueño)`);
+            }
+            
+            const resultsDiv = document.getElementById('bedtime-results');
+            const optionsDiv = document.getElementById('bedtime-options');
+            
+            optionsDiv.innerHTML = bedtimes.map(time => 
+                `<span class="time-option">${time}</span>`
+            ).join('');
+            
+            resultsDiv.style.display = 'block';
+        }
+
+        function calculateWakeup() {
+            const sleepTime = document.getElementById('sleep-time').value;
+            if (!sleepTime) return;
+            
+            const [hours, minutes] = sleepTime.split(':').map(Number);
+            const sleepDate = new Date();
+            sleepDate.setHours(hours, minutes, 0, 0);
+            
+            const wakeupTimes = [];
+            const cycleLength = 90; // minutes
+            const fallAsleepTime = 15; // minutes
+            
+            // Add fall asleep time
+            const actualSleepStart = new Date(sleepDate.getTime() + fallAsleepTime * 60000);
+            
+            // Calculate for 4, 5, and 6 sleep cycles
+            for (let cycles = 4; cycles <= 6; cycles++) {
+                const totalSleepMinutes = cycles * cycleLength;
+                const wakeup = new Date(actualSleepStart.getTime() + totalSleepMinutes * 60000);
+                
+                // Handle day rollover
+                if (wakeup.getDate() !== sleepDate.getDate()) {
+                    wakeup.setDate(wakeup.getDate());
+                }
+                
+                const timeString = wakeup.toTimeString().slice(0, 5);
+                const sleepHours = (cycles * cycleLength / 60).toFixed(1);
+                wakeupTimes.push(`${timeString} (${sleepHours}h sueño)`);
+            }
+            
+            const resultsDiv = document.getElementById('wakeup-results');
+            const optionsDiv = document.getElementById('wakeup-options');
+            
+            optionsDiv.innerHTML = wakeupTimes.map(time => 
+                `<span class="time-option">${time}</span>`
+            ).join('');
+            
+            resultsDiv.style.display = 'block';
+        }
+
+        function toggleFAQ(element) {
+            const answer = element.nextElementSibling;
+            const isActive = answer.classList.contains('active');
+            
+            // Close all FAQ answers
+            document.querySelectorAll('.faq-answer').forEach(ans => {
+                ans.classList.remove('active');
+            });
+            
+            // Toggle current answer
+            if (!isActive) {
+                answer.classList.add('active');
+            }
+        }
+
+        // Initialize with default calculation
+        document.addEventListener('DOMContentLoaded', function() {
+            calculateBedtime();
+        });
+    </script>
+</body>
+</html>
