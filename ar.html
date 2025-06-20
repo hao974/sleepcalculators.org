@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حاسبة النوم - تحسين جدول النوم | Sleep Calculators</title>
+    <meta name="description" content="حاسبة النوم ودورة النوم المجانية لإيجاد أوقات النوم والاستيقاظ المثلى. احسب دورات نوم حركة العين السريعة للراحة الأفضل.">
+    <meta name="keywords" content="حاسبة النوم, حاسبة دورة النوم, حساب النوم, حاسبة نوم حركة العين السريعة, حاسبة وقت النوم">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="حاسبة النوم - تحسين جدول النوم">
+    <meta property="og:description" content="اعثر على أوقات النوم والاستيقاظ المثالية مع حاسبة النوم المتقدمة. بناءً على دورات 90 دقيقة للنوم الأمثل.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sleepcalculators.org/ar">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            direction: rtl;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header and Logo */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: #4a5568;
+            direction: ltr;
+        }
+
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            color: white;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+            animation: float 3s ease-in-out infinite;
+            order: 2;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .logo-text {
+            order: 1;
+            text-align: right;
+        }
+
+        .logo-text h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0;
+        }
+
+        .logo-text p {
+            font-size: 1rem;
+            color: #718096;
+            margin: 0;
+        }
+
+        /* Main Content */
+        main {
+            padding: 40px 0;
+        }
+
+        .hero-section {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .hero-section h2 {
+            font-size: 2.2rem;
+            color: white;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-section p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        /* Calculator Section */
+        .calculator-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+            margin-bottom: 60px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .calculator-tabs {
+            display: flex;
+            margin-bottom: 30px;
+            background: #f7fafc;
+            border-radius: 10px;
+            padding: 5px;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 15px;
+            background: none;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: #4a5568;
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        input[type="time"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            transition: border-color 0.3s ease;
+            direction: ltr;
+        }
+
+        input[type="time"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .calculate-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .results {
+            margin-top: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #f7fafc, #edf2f7);
+            border-radius: 15px;
+            border-right: 5px solid #667eea;
+            border-left: none;
+        }
+
+        .results h3 {
+            color: #4a5568;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .time-option {
+            display: inline-block;
+            margin: 8px;
+            padding: 12px 20px;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 25px;
+            color: #4a5568;
+            font-weight: 600;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            direction: ltr;
+        }
+
+        .time-option:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        /* Content Sections */
+        .content-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+        }
+
+        .content-section h2 {
+            color: #2d3748;
+            margin-bottom: 25px;
+            font-size: 2rem;
+            text-align: center;
+        }
+
+        .content-section h3 {
+            color: #4a5568;
+            margin: 25px 0 15px;
+            font-size: 1.5rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #f7fafc, #edf2f7);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 24px;
+            color: white;
+        }
+
+        .faq-item {
+            margin-bottom: 20px;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            background: #f7fafc;
+            padding: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #4a5568;
+            transition: background-color 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: #edf2f7;
+        }
+
+        .faq-answer {
+            padding: 20px;
+            background: white;
+            display: none;
+            color: #4a5568;
+            line-height: 1.7;
+        }
+
+        .faq-answer.active {
+            display: block;
+        }
+
+        /* Useful Websites Section */
+        .useful-websites {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+        }
+
+        .useful-websites h2 {
+            text-align: center;
+            color: #2d3748;
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+
+        .websites-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .website-link {
+            display: block;
+            padding: 15px 20px;
+            background: linear-gradient(135deg, #f7fafc, #edf2f7);
+            color: #4a5568;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-weight: 500;
+            border: 1px solid #e2e8f0;
+            direction: ltr;
+        }
+
+        .website-link:hover {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(45, 55, 72, 0.95);
+            backdrop-filter: blur(10px);
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 60px;
+        }
+
+        .footer-content p {
+            margin-bottom: 10px;
+        }
+
+        /* RTL specific adjustments */
+        ul {
+            padding-right: 20px;
+            padding-left: 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .logo-text h1 {
+                font-size: 2rem;
+            }
+
+            .hero-section h2 {
+                font-size: 1.8rem;
+            }
+
+            .calculator-card {
+                padding: 25px;
+                margin: 0 10px 40px;
+            }
+
+            .content-section {
+                padding: 25px;
+                margin: 0 10px 30px;
+            }
+
+            .websites-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo">
+                    <div class="logo-icon">🌙</div>
+                    <div class="logo-text">
+                        <h1>حاسبات النوم</h1>
+                        <p>تحسين دورة النوم</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <section class="hero-section">
+                <h2>اعثر على جدول النوم المثالي</h2>
+                <p>استيقظ منتعشاً ومليئاً بالطاقة مع حاسبة النوم المتقدمة. احسب أوقات النوم والاستيقاظ المثلى بناءً على دورات النوم الطبيعية 90 دقيقة.</p>
+            </section>
+
+            <section class="calculator-card">
+                <div class="calculator-tabs">
+                    <button class="tab-button active" onclick="switchTab('wakeup')">وقت الاستيقاظ</button>
+                    <button class="tab-button" onclick="switchTab('bedtime')">وقت النوم</button>
+                </div>
+
+                <div id="wakeup-tab" class="tab-content active">
+                    <div class="form-group">
+                        <label for="wake-time">متى تريد أن تستيقظ؟</label>
+                        <input type="time" id="wake-time" value="07:00">
+                    </div>
+                    <button class="calculate-btn" onclick="calculateBedtime()">احسب وقت النوم</button>
+                    <div id="bedtime-results" class="results" style="display: none;">
+                        <h3>أوقات النوم الموصى بها:</h3>
+                        <div id="bedtime-options"></div>
+                        <p style="margin-top: 15px; font-size: 0.9rem; color: #718096;">
+                            💡 يحتاج الشخص العادي 15 دقيقة للاستغراق في النوم. خطط وفقاً لذلك!
+                        </p>
+                    </div>
+                </div>
+
+                <div id="bedtime-tab" class="tab-content">
+                    <div class="form-group">
+                        <label for="sleep-time">متى ستذهب للنوم؟</label>
+                        <input type="time" id="sleep-time" value="23:00">
+                    </div>
+                    <button class="calculate-btn" onclick="calculateWakeup()">احسب وقت الاستيقاظ</button>
+                    <div id="wakeup-results" class="results" style="display: none;">
+                        <h3>أوقات الاستيقاظ الموصى بها:</h3>
+                        <div id="wakeup-options"></div>
+                        <p style="margin-top: 15px; font-size: 0.9rem; color: #718096;">
+                            💡 استيقظ في أحد هذه الأوقات للاستيقاظ بين دورات النوم 90 دقيقة.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2>حول حاسبة دورة النوم الخاصة بنا</h2>
+                <p><strong>حاسبة النوم</strong> الخاصة بنا مصممة لمساعدتك في تحسين جدول النوم من خلال العمل مع دورات النوم الطبيعية لجسمك. على عكس حاسبات النوم البسيطة، تأخذ أداتنا في الاعتبار علم النوم لضمان استيقاظك منتعشاً ومليئاً بالطاقة.</p>
+                
+                <h3>الخصائص الرئيسية لحاسبة وقت النوم</h3>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🔄</div>
+                        <h4>حساب دورة 90 دقيقة</h4>
+                        <p>بناءً على البحث العلمي الذي يُظهر أن دورات النوم المثلى تستمر حوالي 90 دقيقة</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">⏰</div>
+                        <h4>حاسبة مزدوجة الوضع</h4>
+                        <p>احسب إما وقت النوم المثالي أو وقت الاستيقاظ بناءً على جدولك</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🧠</div>
+                        <h4>تحسين نوم حركة العين السريعة</h4>
+                        <p>يضمن إكمالك لدورات النوم الكاملة بما في ذلك مراحل نوم حركة العين السريعة المهمة</p>
+                    </div>
+                </div>
+
+                <h3>كيف تعمل دورات النوم</h3>
+                <p>فهم دورات النوم أمر بالغ الأهمية <strong>لحساب النوم</strong> بفعالية. تتكون كل دورة نوم من عدة مراحل:</p>
+                <ul style="margin: 15px 0; padding-right: 20px;">
+                    <li><strong>النوم الخفيف (المرحلة 1-2):</strong> الانتقال من اليقظة إلى النوم</li>
+                    <li><strong>النوم العميق (المرحلة 3):</strong> الاستعادة الجسدية وترسيخ الذاكرة</li>
+                    <li><strong>نوم حركة العين السريعة:</strong> نوم حركة العين السريعة المهم للاستعادة العقلية</li>
+                </ul>
+                <p><strong>حاسبة نوم حركة العين السريعة</strong> الخاصة بنا تضمن إكمالك لهذه الدورات بشكل طبيعي، مما يتجنب النعاس من الاستيقاظ في منتصف الدورة.</p>
+            </section>
+
+            <section class="content-section">
+                <h2>الأسئلة الشائعة</h2>
+                
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        هل هذه الحاسبة دورة النوم دقيقة؟
+                    </div>
+                    <div class="faq-answer">
+                        <strong>حاسبة النوم</strong> الخاصة بنا تستند إلى أبحاث النوم الواسعة التي تُظهر أن دورة النوم المتوسطة تستمر 90-120 دقيقة. رغم وجود اختلافات فردية، معظم الناس يستفيدون من الاستيقاظ في نهاية دورة كاملة بدلاً من منتصف الدورة.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        ما الذي يجعل هذا مختلفاً عن حاسبات وقت النوم الأخرى؟
+                    </div>
+                    <div class="faq-answer">
+                        حاسبتنا تركز على <strong>حساب النوم</strong> بناءً على دورات 90 دقيقة الطبيعية بدلاً من مجرد عد الساعات. هذا النهج يساعدك على الاستيقاظ خلال مراحل النوم الأخف، مما يقلل من النعاس الصباحي ويحسن مستويات الطاقة طوال اليوم.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        كيف تعمل ميزة حاسبة نوم حركة العين السريعة؟
+                    </div>
+                    <div class="faq-answer">
+                        مكون <strong>حاسبة نوم حركة العين السريعة</strong> الخاص بنا يضمن إكمالك لدورات النوم الكاملة التي تشمل جميع مراحل النوم، بما في ذلك مرحلة حركة العين السريعة المهمة. نوم حركة العين السريعة يحدث عادة في الجزء الأخير من كل دورة 90 دقيقة وهو ضروري لترسيخ الذاكرة والاستعادة العقلية.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        لماذا أحتاج إلى خيارات متعددة لأوقات النوم؟
+                    </div>
+                    <div class="faq-answer">
+                        <strong>حاسبة دورة النوم</strong> توفر خيارات متعددة لأنك يمكن أن تشعر بالانتعاش بعد 4 أو 5 أو 6 دورات نوم كاملة (6 أو 7.5 أو 9 ساعات على التوالي). هذه المرونة تسمح لك بالاختيار بناءً على جدولك مع الحفاظ على جودة النوم المثلى.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        هل 15 دقيقة حقاً هو الوقت المتوسط للاستغراق في النوم؟
+                    </div>
+                    <div class="faq-answer">
+                        نعم، تُظهر الأبحاث أن البالغين الأصحاء عادة ما يستغرقون 10-20 دقيقة للاستغراق في النوم، مع 15 دقيقة كمتوسط. حاسبتنا تتضمن فترة "زمن النوم" هذه عند <strong>حساب النوم</strong> لضمان الدقة في تخطيط جدول النوم.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        هل يمكن لحاسبة النوم هذه أن تساعد مع اضطرابات النوم؟
+                    </div>
+                    <div class="faq-answer">
+                        بينما أداتنا ممتازة لتحسين جداول النوم العادية، فهي ليست جهازاً طبياً. إذا كان لديك مشاكل نوم مستمرة، استشر مقدم الرعاية الصحية. ومع ذلك، يجد العديد من المستخدمين أن اتباع توصيات <strong>حاسبة وقت النوم</strong> الخاصة بنا يحسن جودة النوم الإجمالية واليقظة النهارية.
+                    </div>
+                </div>
+            </section>
+
+            <section class="useful-websites">
+                <h2>أدوات ومصادر مفيدة</h2>
+                <div class="websites-grid">
+                    <a href="https://hellowordl.cc/" target="_blank" class="website-link">Hello Wordl</a>
+                    <a href="https://www.globeask.com/" target="_blank" class="website-link">Globe Ask</a>
+                    <a href="https://live-clock.com/" target="_blank" class="website-link">Live Clock</a>
+                    <a href="https://www.pokemonguide.org/" target="_blank" class="website-link">Pokemon Guide</a>
+                    <a href="https://www.strongrandompassword.com/" target="_blank" class="website-link">Strong Random Password Generator</a>
+                    <a href="https://www.myipinquire.com/" target="_blank" title="ipsaya" class="website-link">IP Saya</a>
+                    <a href="https://www.calculationassistant.com/" target="_blank" class="website-link">Calculation Assistant</a>
+                    <a href="https://www.whatismyipaddressinquire.com/" target="_blank" class="website-link">Random IP</a>
+                    <a href="https://www.masters-tool.com/" target="_blank" class="website-link">Masters Tool</a>
+                    <a href="https://www.mathematicalcalculator.com/" target="_blank" class="website-link">Mathematical Calculator</a>
+                    <a href="https://tothepowerof2.com/" target="_blank" class="website-link">2 to the Power of What is 1/64</a>
+                    <a href="https://littlebeartools.com/" target="_blank" class="website-link">Little Bear Tools</a>
+                    <a href="https://snailsbob.org/" target="_blank" class="website-link">Snail Bob</a>
+                    <a href="https://redlightgreenlightgame.net/" target="_blank" class="website-link">Red Light Green Light Game</a>
+                    <a href="https://excelgames.cc/" target="_blank" class="website-link">Excel Game</a>
+                    <a href="https://block-blast-unblocked.com/" target="_blank" class="website-link">Block Blast Unblocked</a>
+                    <a href="https://incrediboxsprunkifree.org/" target="_blank" class="website-link">Incredibox Sprunki</a>
+                    <a href="https://todayluckynumber.org" target="_blank" class="website-link">Today Lucky Number</a>
+                    <a href="https://military-time-chart.org/" target="_blank" class="website-link">Military Time Chart</a>
+                    <a href="https://chronologicalagescalculator.com/" target="_blank" class="website-link">Chronological Age Calculator</a>
+                    <a href="https://12weeksfromtoday.com/" target="_blank" class="website-link">12 Weeks From Today</a>
+                    <a href="https://weeks-from-today.com/" target="_blank" class="website-link">Weeks From Today</a>
+                    <a href="https://bottleneckcalculator.work/" target="_blank" class="website-link">Bottleneck Calculator</a>
+                    <a href="https://letterstonumbers.com/" target="_blank" class="website-link">Letters to Numbers</a>
+                    <a href="https://bratfontgenerator.com/" target="_blank" class="website-link">Brat Font Generator</a>
+                    <a href="https://tap-code.org/" target="_blank" class="website-link">Tap Code</a>
+                    <a href="https://5letterwordswithiinthemiddle.com/" target="_blank" class="website-link">5 Letter Words with I in the Middle</a>
+                    <a href="https://freaky-font.net/" target="_blank" class="website-link">Freaky Font</a>
+                    <a href="https://heartemoji.net/" target="_blank" class="website-link">Heart Emoji</a>
+                    <a href="https://villainnamegenerator.org/" target="_blank" class="website-link">Villain Name Generator</a>
+                    <a href="https://crazycattle3ditch.com/" target="_blank" class="website-link">Crazy Cattle 3D</a>
+                    <a href="https://checkersonline247.com/" target="_blank" class="website-link">Checkers Online</a>
+                    <a href="https://collapsible-stool.com/" target="_blank" title="Collapsible Stool" class="website-link">Collapsible Stool</a>
+                    <a href="https://overallsshop.com/" target="_blank" title="Overalls" class="website-link">Overalls</a>
+                    <a href="https://datecalculators.org/" target="_blank" title="Date Calculator" class="website-link">Date Calculator</a>
+                    <a href="https://www.shopsages.com/" target="_blank" title="Shop Sages" class="website-link">Shop Sages</a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 Sleep Calculators. جميع الحقوق محفوظة.</p>
+                <p>حسّن جدول النوم الخاص بك مع حاسبة دورة النوم المبنية على العلم.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function switchTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected tab and mark button as active
+            document.getElementById(tabName + '-tab').classList.add('active');
+            event.target.classList.add('active');
+            
+            // Hide results
+            document.getElementById('bedtime-results').style.display = 'none';
+            document.getElementById('wakeup-results').style.display = 'none';
+        }
+
+        function calculateBedtime() {
+            const wakeTime = document.getElementById('wake-time').value;
+            if (!wakeTime) return;
+            
+            const [hours, minutes] = wakeTime.split(':').map(Number);
+            const wakeDate = new Date();
+            wakeDate.setHours(hours, minutes, 0, 0);
+            
+            const bedtimes = [];
+            const cycleLength = 90; // minutes
+            const fallAsleepTime = 15; // minutes
+            
+            // Calculate for 4, 5, and 6 sleep cycles
+            for (let cycles = 4; cycles <= 6; cycles++) {
+                const totalSleepMinutes = cycles * cycleLength + fallAsleepTime;
+                const bedtime = new Date(wakeDate.getTime() - totalSleepMinutes * 60000);
+                
+                // Handle day rollover
+                if (bedtime.getDate() !== wakeDate.getDate()) {
+                    bedtime.setDate(bedtime.getDate());
+                }
+                
+                const timeString = bedtime.toTimeString().slice(0, 5);
+                const sleepHours = (cycles * cycleLength / 60).toFixed(1);
+                bedtimes.push(`${timeString} (${sleepHours}س نوم)`);
+            }
+            
+            const resultsDiv = document.getElementById('bedtime-results');
+            const optionsDiv = document.getElementById('bedtime-options');
+            
+            optionsDiv.innerHTML = bedtimes.map(time => 
+                `<span class="time-option">${time}</span>`
+            ).join('');
+            
+            resultsDiv.style.display = 'block';
+        }
+
+        function calculateWakeup() {
+            const sleepTime = document.getElementById('sleep-time').value;
+            if (!sleepTime) return;
+            
+            const [hours, minutes] = sleepTime.split(':').map(Number);
+            const sleepDate = new Date();
+            sleepDate.setHours(hours, minutes, 0, 0);
+            
+            const wakeupTimes = [];
+            const cycleLength = 90; // minutes
+            const fallAsleepTime = 15; // minutes
+            
+            // Add fall asleep time
+            const actualSleepStart = new Date(sleepDate.getTime() + fallAsleepTime * 60000);
+            
+            // Calculate for 4, 5, and 6 sleep cycles
+            for (let cycles = 4; cycles <= 6; cycles++) {
+                const totalSleepMinutes = cycles * cycleLength;
+                const wakeup = new Date(actualSleepStart.getTime() + totalSleepMinutes * 60000);
+                
+                // Handle day rollover
+                if (wakeup.getDate() !== sleepDate.getDate()) {
+                    wakeup.setDate(wakeup.getDate());
+                }
+                
+                const timeString = wakeup.toTimeString().slice(0, 5);
+                const sleepHours = (cycles * cycleLength / 60).toFixed(1);
+                wakeupTimes.push(`${timeString} (${sleepHours}س نوم)`);
+            }
+            
+            const resultsDiv = document.getElementById('wakeup-results');
+            const optionsDiv = document.getElementById('wakeup-options');
+            
+            optionsDiv.innerHTML = wakeupTimes.map(time => 
+                `<span class="time-option">${time}</span>`
+            ).join('');
+            
+            resultsDiv.style.display = 'block';
+        }
+
+        function toggleFAQ(element) {
+            const answer = element.nextElementSibling;
+            const isActive = answer.classList.contains('active');
+            
+            // Close all FAQ answers
+            document.querySelectorAll('.faq-answer').forEach(ans => {
+                ans.classList.remove('active');
+            });
+            
+            // Toggle current answer
+            if (!isActive) {
+                answer.classList.add('active');
+            }
+        }
+
+        // Initialize with default calculation
+        document.addEventListener('DOMContentLoaded', function() {
+            calculateBedtime();
+        });
+    </script>
+</body>
+</html>
